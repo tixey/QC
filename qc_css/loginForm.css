@@ -1,0 +1,19 @@
+form {
+    margin: 10px;
+}
+
+.rect{
+	align-items: center;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    height: 100%;
+}
+
+#logged_in_span{
+	padding-top: 10px;
+    padding-bottom: 10px;
+}
+.grey-light{
+    background: rgba(191, 191, 191, .15);
+}

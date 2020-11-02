@@ -1,0 +1,15 @@
+
+.sholder{
+	width: 100%;
+	align-items: center;
+
+}
+.side-sholder{
+	width: 15%;
+	display: inline-block;
+}
+.mdl-sholder{
+	width: 70%;
+	display: inline-block;
+	min-width: 600px;
+}
