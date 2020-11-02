@@ -21,7 +21,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>QComply - Questionnaires</title>
+    <title>QComply  -  Questionnaires</title>
 
 
     <?php
@@ -68,8 +68,6 @@
     <link rel="stylesheet" type="text/css" href="qc_css/questionnaires.css" />
 
     <script src="qc_js/login.js"></script>
-
-
 
 </head>
 <body class="dx-viewport" onload="Loader();">

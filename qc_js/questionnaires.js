@@ -48,6 +48,7 @@ var QuestionnairesStore = new DevExpress.data.CustomStore({
 
 	},
 	remove: function(key){
+		var JSfile = 'php/json_data.php?URL=questionnaires.php&SP=035&PAR=POST';
 		return $.getJSON(JSFile, function(){
 							            DevExpress.ui.notify(
 						                            {message: "Customer deleted!",
@@ -61,17 +62,25 @@ var QuestionnairesStore = new DevExpress.data.CustomStore({
 
 	},
 	insert: function (values){
-        return $.post(JSFile4Update, data,
-		            function(data, status){
-		            		DevExpress.ui.notify(
-	                            {message: "Customer added!",
-	                                position: {
-	                                    my: "center top",
-	                                    at: "center top"
-	                                }
-	                            },"info",5000);
-		                $("#Customers_001").dxDataGrid('instance').refresh();
-		            });    					
+		if(SELECTED_COMPANY_ID > 0){
+			var JSfile = 'php/json_data.php?URL=questionnaires.php&SP=035&PAR=POST';
+       		var PARAMS='SELECTED_COMPANY_ID';
+			var data       = {};
+			data.PARAMS    = PARAMS;
+			data.SELECTED_COMPANY_ID = SELECTED_COMPANY_ID;
+
+	        return $.post(JSfile, data,
+			            function(data, status){
+			            		DevExpress.ui.notify(
+		                            {message: "Questionnaire added!",
+		                                position: {
+		                                    my: "center top",
+		                                    at: "center top"
+		                                }
+		                            },"info",5000);
+			                $("#Questionnaires_001").dxDataGrid('instance').refresh();
+			            });    
+		}					
 }
 });
 
