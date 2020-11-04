@@ -84,71 +84,12 @@ var QuestionnairesStore = new DevExpress.data.CustomStore({
 }
 });
 
-var EntityNames = new DevExpress.data.CustomStore({
-	loadMode: "raw",
-	cacheRawData: false,
-	key: 'ID',
-	load: function(loadOptions) {
-			
-			var JSfile4Store =  'php/json_data.php?URL=customers.php&SP=007&PAR=0';
-			return $.getJSON(JSfile4Store);
-	},
-		byKey: function (key) {
-				
-    		var JSfile4Store =  'php/json_data.php?URL=customers.php&SP=007&PAR='+key;
-    		return $.getJSON(JSfile4Store);
-	}
-});
-var UserNames = new DevExpress.data.CustomStore({
-	loadMode: "raw",
-	cacheRawData: false,
-	key: 'ID',
-	load: function(loadOptions) {
-			
-			var JSfile4Store =  'php/json_data.php?URL=customers.php&SP=003&PAR=0';
-			return $.getJSON(JSfile4Store);
-	},
-		byKey: function (key) {
-				
-    		var JSfile4Store =  'php/json_data.php?URL=customers.php&SP=003&PAR='+key;
-    		return $.getJSON(JSfile4Store);
-	}
-}); 
-var StatusesStore = new DevExpress.data.CustomStore({
-	loadMode: "raw",
-	cacheRawData: false,
-	key: 'ID',
-	load: function(loadOptions) {
-			
-			var JSfile4Store =  'php/json_data.php?URL=questionnaires.php&SP=010&PAR=0';
-			return $.getJSON(JSfile4Store);
-	},
-		byKey: function (key) {
-				
-    		var JSfile4Store =  'php/json_data.php?URL=questionnaires.php&SP=010&PAR='+key;
-    		return $.getJSON(JSfile4Store);
-	}
-}); 
-var StagesStore = new DevExpress.data.CustomStore({
-	loadMode: "raw",
-	cacheRawData: false,
-	key: 'ID',
-	load: function(loadOptions) {
-			
-			var JSfile4Store =  'php/json_data.php?URL=questionnaires.php&SP=011&PAR=0';
-			return $.getJSON(JSfile4Store);
-	},
-		byKey: function (key) {
-				
-    		var JSfile4Store =  'php/json_data.php?URL=questionnaires.php&SP=011&PAR='+key;
-    		return $.getJSON(JSfile4Store);
-	}
-}); 
+
 
 
 function Loader(){
-	    if(SELECTED_COMPANY_ID>0){
-		    Companies.byKey(SELECTED_COMPANY_ID).done(function(result) {
+	    if(SELECTED_COMPANY_ID>0){ 
+		    GlobalQCData.GLOBAL_STORES.Companies.store.byKey(SELECTED_COMPANY_ID).done(result => {
 	    		cSearchData.Company=result[0].NAME;
 	    		CompanySearch();
 	    		Questionnaires_001();
@@ -176,7 +117,7 @@ function CompanySearch(){
 	                	dataField: "Company",
 	                	editorType: "dxAutocomplete",
         				editorOptions: { 
-		                	dataSource: Companies,
+		                	dataSource: GlobalQCData.GLOBAL_STORES.Companies.store,
 		                	placeholder: "Type Client's or Company's current or previous name...",
 		                	valueExpr: "NAME",
 		                	searchExpr: "SEARCH",
@@ -250,7 +191,7 @@ function Questionnaires_001(){
             			newData.CLIENT_ID = value;
         			},
         			lookup: {
-            			dataSource: Companies,
+            			dataSource: GlobalQCData.GLOBAL_STORES.Companies.store,
             			valueExpr: "ID",
             			displayExpr: "NAME"
         			}
@@ -263,7 +204,7 @@ function Questionnaires_001(){
             			newData.ENTITY_TYPE_ID = value;
         			},
         			lookup: {
-            			dataSource: EntityNames,
+            			dataSource: GlobalQCData.GLOBAL_STORES.Entities.store,
             			valueExpr: "ID",
             			displayExpr: "NAME"
         			}
@@ -276,7 +217,7 @@ function Questionnaires_001(){
             			newData.STAGE_ID = value;
         			},
         			lookup: {
-            			dataSource: StagesStore,
+            			dataSource: GlobalQCData.GLOBAL_STORES.Stages.store,
             			valueExpr: "ID",
             			displayExpr: "NAME"
         			}
@@ -303,7 +244,7 @@ function Questionnaires_001(){
             			newData.STATUS_ID = value;
         			},
         			lookup: {
-            			dataSource: StatusesStore,
+            			dataSource: GlobalQCData.GLOBAL_STORES.Statuses.store,
             			valueExpr: "ID",
             			displayExpr: "NAME"
         			}
@@ -322,7 +263,7 @@ function Questionnaires_001(){
             			newData.CREATED_BY = value;
         			},
         			lookup: {
-            			dataSource: UserNames,
+            			dataSource: GlobalQCData.GLOBAL_STORES.Users.store,
             			valueExpr: "ID",
             			displayExpr: "NAME"
         			}

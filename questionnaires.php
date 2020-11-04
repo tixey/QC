@@ -60,6 +60,10 @@
     <script src="js/jszip.min.js"></script>
     <script src="js/dx.all.js"></script>
 
+    <script src="qc_js/global/config.js"></script>
+    <script src="qc_js/global/helpers.js"></script>
+    <script src="qc_js/global/data.js"></script>
+
     <script src="qc_js/globals.js"></script>
     <script src="qc_js/nav_data.js"></script>
     <link rel="stylesheet" type="text/css" href="qc_css/nav_menu.css" />
