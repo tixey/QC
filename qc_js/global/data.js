@@ -23,6 +23,15 @@ class QCData {
                 Key: 'ID',
                 cacheRawData: true,
                 loadMode: "raw",
+                load:() => Helper.getJson('027',[0]),
+                byKey:(key) => Helper.getJson('027',[key])
+            })
+        }
+        this.GLOBAL_STORES.LegalForms = {
+           store: this.createStore({
+                Key: 'ID',
+                cacheRawData: true,
+                loadMode: "raw",
                 load:() => Helper.getJson('007',[0]),
                 byKey:(key) => Helper.getJson('007',[key])
             })

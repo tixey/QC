@@ -72,7 +72,7 @@ class Helper {
           default:
             console.log('Incorrect interval. Allowed values year, month, day, hour, min, sec');
         }
-
+        return result;
 
     }
 

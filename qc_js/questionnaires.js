@@ -48,11 +48,15 @@ var QuestionnairesStore = new DevExpress.data.CustomStore({
 	},
 	insert: function (values){
 		if(SELECTED_COMPANY_ID > 0){
+			console.log(values);
 			var JSfile = 'php/json_data.php?URL=questionnaires.php&SP=035&PAR=POST';
-       		var PARAMS='SELECTED_COMPANY_ID';
+       		var PARAMS='CLIENT_ID,DATE_FROM,DATE_TO';
 			var data       = {};
 			data.PARAMS    = PARAMS;
-			data.SELECTED_COMPANY_ID = SELECTED_COMPANY_ID;
+
+			data.CLIENT_ID = values.CLIENT_ID;
+			data.DATE_FROM = formatDate(values.VALID_FROM);
+			data.DATE_TO   = formatDate(values.VALID_UNTIL);
 
 	        return $.post(JSfile, data,
 			            function(data, status){
@@ -174,6 +178,7 @@ function Questionnaires_001(){
                 	dataType: "number",
     				setCellValue: function(newData, value, currentRowData) {
             			newData.CLIENT_ID = value;
+				        newData.ENTITY_TYPE_ID = GlobalQCData.GLOBAL_STORES.Companies.store.__rawData.filter((company) => { return company.ID == value;})[0].ENTITY_TYPE_ID;
         			},
         			lookup: {
             			dataSource: GlobalQCData.GLOBAL_STORES.Companies.store,
@@ -192,7 +197,9 @@ function Questionnaires_001(){
             			dataSource: GlobalQCData.GLOBAL_STORES.Entities.store,
             			valueExpr: "ID",
             			displayExpr: "NAME"
-        			}
+        			},
+
+  
         		},
             	{
                 	dataField: "STAGE_ID",
@@ -304,6 +311,7 @@ function Questionnaires_001(){
 				                	dataType: "number",
 				    				setCellValue: function(newData, value, currentRowData) {
 				            			newData.CLIENT_ID = value;
+				            			newData.ENTITY_TYPE_ID = GlobalQCData.GLOBAL_STORES.Companies.store.__rawData.filter((company) => { return company.ID == value;})[0].ENTITY_TYPE_ID;
 				        			},
 				        			lookup: {
 				            			dataSource: GlobalQCData.GLOBAL_STORES.Companies.store,
@@ -322,6 +330,20 @@ function Questionnaires_001(){
 				            			dataSource: GlobalQCData.GLOBAL_STORES.Entities.store,
 				            			valueExpr: "ID",
 				            			displayExpr: "NAME"
+				        			},
+				        			/*,
+				        			lookup: {
+						            			dataSource: function(options) {
+						            							return{
+						            								store: GlobalQCData.GLOBAL_STORES.Companies.store,
+						            								filter: options.data ? ["ID", "=", options.data.CLIENT_ID] : null
+						            							}
+						            			},
+						            			valueExpr: "ENTITY_TYPE_ID",
+						            			displayExpr: "ENTITY_TYPE_NAME"
+								    },*/
+				        			editorOptions: {
+				        				readOnly: true
 				        			}
 				        		},
 				        		{
@@ -392,12 +414,12 @@ function Questionnaires_001(){
 
 	        },
 			onInitNewRow: function(e) {
-				console.log(e);
 				e.data.CLIENT_ID = SELECTED_COMPANY_ID;
 				e.data.STAGE_ID  = 1;
 				e.data.STATUS_ID = 1;
 				e.data.VALID_FROM  = new Date();
-				e.data.VALID_UNTIL = Helpers.dateAdd(new Date(), 'year', 1);
+				e.data.VALID_UNTIL = Helper.dateAdd(new Date(), 'year', 1);
+				e.data.ENTITY_TYPE_ID = GlobalQCData.GLOBAL_STORES.Companies.store.__rawData.filter((company) => { return company.ID == SELECTED_COMPANY_ID;})[0].ENTITY_TYPE_ID;
 			},
 			selection: {
             	mode: "multiple"
@@ -431,7 +453,7 @@ function Questionnaires_001(){
 					}
 			},
 		
-	    });
+	    }).dxDataGrid('instance');
 
 
 	});
