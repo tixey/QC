@@ -45,4 +45,36 @@ class Helper {
             error: reject
         }));
     }
+
+
+    static dateAdd(date, interval, value){
+        var result = new Date(date);
+       
+          switch(interval) {
+          case "year":
+            result.setFullYear(result.getFullYear() + value);
+            break;
+          case "month":
+            result.setMonth(result.getMonth() + value);
+            break;
+          case "day":
+            result.setDate(result.getDate() + value);
+            break;
+          case "hour":
+            result.setHours(result.getHours() + value);
+            break;
+          case "min":
+            result.setMinutes(result.getMinutes() + value);
+            break;
+          case "sec":
+            result.setSeconds(result.getSeconds() + value);
+            break;
+          default:
+            console.log('Incorrect interval. Allowed values year, month, day, hour, min, sec');
+        }
+
+
+    }
+
+
 }

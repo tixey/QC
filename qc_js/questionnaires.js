@@ -5,22 +5,7 @@ var oldValues;
 var cSearchData = {
     "Company": ""
 };
-var Companies = new DevExpress.data.CustomStore({
-	loadMode: "raw",
-	cacheRawData: false,
-	key: 'ID',
-	load: function(loadOptions) {
-			//document.getElementById('search-status').setAttribute("style","width: 65%; display: inline-block;text-align: left;");
-			var JSfile4Store =  'php/json_data.php?URL=questionnaires.php&SP=008&PAR=0,';
-			return $.getJSON(JSfile4Store/*,function() { document.getElementById('search-status').setAttribute("style","width: 65%; display: none;text-align: left;"); }*/);
-	},
-	byKey: function (key) {
-		    //console.log(key);
-            var JSfile4Store =  'php/json_data.php?URL=questionnaires.php&SP=008&PAR='+key+',';
-            
-            return $.getJSON(JSfile4Store);
-     }
-});
+
 var QuestionnairesStore = new DevExpress.data.CustomStore({
 	loadMode: "raw",
 	cacheRawData: false,
@@ -300,7 +285,91 @@ function Questionnaires_001(){
 				allowDeleting: true,
 				allowAdding: true,
 				useIcons: true,
-			    mode: "popup"
+			    mode: "popup",
+	            popup: {
+	                title: "Create new questionnaire",
+	                showTitle: true,
+	                position: {
+	                    my: "top",
+	                    at: "top",
+	                    of: window
+	                }
+	            },
+	            form: {
+	                items: [
+								
+				              	{
+				                	dataField: "CLIENT_ID",
+				                	caption: "Client",
+				                	dataType: "number",
+				    				setCellValue: function(newData, value, currentRowData) {
+				            			newData.CLIENT_ID = value;
+				        			},
+				        			lookup: {
+				            			dataSource: GlobalQCData.GLOBAL_STORES.Companies.store,
+				            			valueExpr: "ID",
+				            			displayExpr: "NAME"
+				        			}
+				        		},
+				              	{
+				                	dataField: "ENTITY_TYPE_ID",
+				                	caption: "Entity",
+				                	dataType: "number",
+				    				setCellValue: function(newData, value, currentRowData) {
+				            			newData.ENTITY_TYPE_ID = value;
+				        			},
+				        			lookup: {
+				            			dataSource: GlobalQCData.GLOBAL_STORES.Entities.store,
+				            			valueExpr: "ID",
+				            			displayExpr: "NAME"
+				        			}
+				        		},
+				        		{
+				            		dataField: "VALID_FROM",
+				                	caption: "Valid From",
+				                	dataType: "date",
+				                	format: 'dd.MM.yyyy'
+				            	},
+				            	{
+				            		dataField: "VALID_UNTIL",
+				                	caption: "Valid Until",
+				                	dataType: "date",
+				                	format: 'dd.MM.yyyy'
+				            	},
+				            	{
+				                	dataField: "STAGE_ID",
+				                	caption:  "Stage",
+				                	dataType: "number",
+				                	setCellValue: function(newData, value, currentRowData) {
+				            			newData.STAGE_ID = value;
+				        			},
+				        			lookup: {
+				            			dataSource: GlobalQCData.GLOBAL_STORES.Stages.store,
+				            			valueExpr: "ID",
+				            			displayExpr: "NAME"
+				        			},
+				        			editorOptions: {
+				        				readOnly: true
+				        			}
+				            	},
+				                {
+				                	dataField: "STATUS_ID",
+				                	caption:  "Status",
+				                	dataType: "number",
+				                	setCellValue: function(newData, value, currentRowData) {
+				            			newData.STATUS_ID = value;
+				        			},
+				        			lookup: {
+				            			dataSource: GlobalQCData.GLOBAL_STORES.Statuses.store,
+				            			valueExpr: "ID",
+				            			displayExpr: "NAME"
+				        			},
+				        			editorOptions: {
+				        				readOnly: true
+				        			}
+				            	}
+	                ] 
+	            }
 			},
 			onToolbarPreparing: function (e) {
             	var tbItems=[];
@@ -322,10 +391,13 @@ function Questionnaires_001(){
 	            // Adds a new item
 
 	        },
-			onInitNewRow(e) {
-				//e.data.CREATED_DATE = formatDate(new Date(Date.now()));
-				//e.data.CREATED_BY = UID;
-				
+			onInitNewRow: function(e) {
+				console.log(e);
+				e.data.CLIENT_ID = SELECTED_COMPANY_ID;
+				e.data.STAGE_ID  = 1;
+				e.data.STATUS_ID = 1;
+				e.data.VALID_FROM  = new Date();
+				e.data.VALID_UNTIL = Helpers.dateAdd(new Date(), 'year', 1);
 			},
 			selection: {
             	mode: "multiple"
