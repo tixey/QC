@@ -29,7 +29,7 @@ class Helper {
 
     static async postJson(procedure, formParams = {}) {
         return new Promise((resolve, reject) => $.ajax({
-            url: Helper.makeUrl({'SP': procedure}, 'POST'),
+            url: Helper.makeUrl({'SP': procedure}, ['POST']),
             data: formParams,
             type: 'post',
             success: resolve,

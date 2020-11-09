@@ -331,17 +331,7 @@ function Questionnaires_001(){
 				            			valueExpr: "ID",
 				            			displayExpr: "NAME"
 				        			},
-				        			/*,
-				        			lookup: {
-						            			dataSource: function(options) {
-						            							return{
-						            								store: GlobalQCData.GLOBAL_STORES.Companies.store,
-						            								filter: options.data ? ["ID", "=", options.data.CLIENT_ID] : null
-						            							}
-						            			},
-						            			valueExpr: "ENTITY_TYPE_ID",
-						            			displayExpr: "ENTITY_TYPE_NAME"
-								    },*/
+
 				        			editorOptions: {
 				        				readOnly: true
 				        			}
@@ -402,7 +392,48 @@ function Questionnaires_001(){
 	                    tbItems.push(item);
 	                    tbItems.push({
 			                widget: "dxButton", 
-			                options: { icon: "unselectall", hint: "Duplicate selected questionnaire...", onClick: function() { console.log('click Duplicate'); } },
+			                options: { 
+								icon: "unselectall", 
+								hint: "Duplicate selected questionnaire...", 
+								onClick: function() { 
+
+
+									var SelectedQuest = $("#Questionnaires_001").dxDataGrid('instance').getSelectedRowKeys();
+
+									if(SelectedQuest.length == 1){
+										/*var JSFile = 'php/json_data.php?URL=questionnaires.php&SP=036&PAR=POST';*/
+										var PARAMS = 'pQID';
+										var data       = {};
+										data.PARAMS    = PARAMS;
+										data.pQID = SelectedQuest[0];
+										return Helper.postJson('036',data)
+													.then(
+														(reponse) => {
+															DevExpress.ui.notify(
+																{
+																	message: "Questionnaire is duplicated!",
+																	position: {
+																		my: "center top",
+																		at: "center top"
+																	}
+																},"success",3000);
+															$("#Customers_001").dxDataGrid('instance').refresh();
+															return reponse;
+														} 
+													);
+									}else{
+										DevExpress.ui.notify(
+											{
+												message: "Please select questionnaire for duplication!",
+												position: {
+													my: "center top",
+													at: "center top"
+												}
+											},"error",3000);
+									}
+									
+								} 
+							},
 			                location: "after"
 			            });
 	                }else{
@@ -422,7 +453,7 @@ function Questionnaires_001(){
 				e.data.ENTITY_TYPE_ID = GlobalQCData.GLOBAL_STORES.Companies.store.__rawData.filter((company) => { return company.ID == SELECTED_COMPANY_ID;})[0].ENTITY_TYPE_ID;
 			},
 			selection: {
-            	mode: "multiple"
+            	mode: "single"
         	},
 			groupPanel: {
 	            emptyPanelText: "Questionnaires",
