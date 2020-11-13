@@ -1040,7 +1040,7 @@ function QuestForm_001_load(){
 		    			items: [
 		    				{
 		    					dataField: "COMPLEX_SHAREHOLDING_ID", 
-		    					label: {text: "Complex Shareholders"}, 
+		    					label: {text: "Complex Shareholding Structure"}, 
 		    					colSpan: 2,
 		    					editorType: "dxSelectBox",
 			                    editorOptions: {
@@ -1072,7 +1072,27 @@ function QuestForm_001_load(){
 			                        dataSource: RiskLevelsArr,
 			                        displayExpr: "NAME",
 							        valueExpr: "ID",
-							        value: QuestData.COMPLEX_SHAREHOLDING_ID_RISK_ID
+							        value: QuestData.COMPLEX_SHAREHOLDING_ID_RISK_ID,
+									onValueChanged: function(data){
+										var ra_index = CLIENT_RISK_CATEGORIES.COMPLEX_STRUCTURE;
+										if(data.value!=null){
+
+											if(data.value < RiskLevelsArr.length){
+												CLIENT_RISK_ASSESSMENT[ra_index].SCORE = getRiskScoreById(data.value);
+												CLIENT_RISK_ASSESSMENT[ra_index].LEVEL = getRiskLevelByID(data.value);
+												recalc_risk_assessment();
+											}else{
+												CLIENT_RISK_ASSESSMENT[ra_index].SCORE = null;
+												CLIENT_RISK_ASSESSMENT[ra_index].LEVEL = 'Not Defined';
+												recalc_risk_assessment();
+											}		
+												
+										}else{
+											CLIENT_RISK_ASSESSMENT[ra_index].SCORE = null;
+											CLIENT_RISK_ASSESSMENT[ra_index].LEVEL = 'Not Defined';
+											recalc_risk_assessment();
+										}
+									}
 			                    }
 
 		    				},
