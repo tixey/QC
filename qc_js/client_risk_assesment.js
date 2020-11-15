@@ -79,8 +79,12 @@ function client_risk_assessment_dataGrid(){
                         options.totalValue = 0;
                     }
                     if (options.summaryProcess === "calculate") {
-                        //console.log(options.value);
-                        if(options.value.ID==4 ||options.value.ID==10 ||options.value.ID==13||options.value.ID==14){
+                        console.log(options.value);
+                        if( options.value.ID == (CLIENT_RISK_CATEGORIES.SUM_COUNTRY_RISK+1) ||
+                            options.value.ID == (CLIENT_RISK_CATEGORIES.SUM_CUST_COUNTERPARTY_RISK+1) ||
+                            options.value.ID == (CLIENT_RISK_CATEGORIES.SUM_BUSINESS_REPUTATIONAL_RISK+1) ||
+                            options.value.ID == (CLIENT_RISK_CATEGORIES.SUM_SENSITIVE_PRODUCT_SERVICE_RISK+1)
+                            ){
                             options.totalValue  = options.totalValue + options.value.SCORE;
                         }
                     }
@@ -102,10 +106,10 @@ function recalc_risk_assessment(){
     CeoDirSignDS.load().done(
         function(result1){
             
-            CLIENT_RISK_ASSESSMENT[6].SCORE = getRiskScoreById(QuestData.REGULATOR_COUNTRY_ID_RISK_ID);
-            CLIENT_RISK_ASSESSMENT[6].LEVEL = getRiskLevelByID(QuestData.REGULATOR_COUNTRY_ID_RISK_ID);
-            CLIENT_RISK_ASSESSMENT[7].SCORE = getRiskScoreById(QuestData.PUBLICLY_LISTED_COUNTRY_ID_RISK_ID);
-            CLIENT_RISK_ASSESSMENT[7].LEVEL = getRiskLevelByID(QuestData.PUBLICLY_LISTED_COUNTRY_ID_RISK_ID);
+            CLIENT_RISK_ASSESSMENT[7].SCORE = getRiskScoreById(QuestData.REGULATOR_COUNTRY_ID_RISK_ID);
+            CLIENT_RISK_ASSESSMENT[7].LEVEL = getRiskLevelByID(QuestData.REGULATOR_COUNTRY_ID_RISK_ID);
+            CLIENT_RISK_ASSESSMENT[6].SCORE = getRiskScoreById(QuestData.PUBLICLY_LISTED_COUNTRY_ID_RISK_ID);
+            CLIENT_RISK_ASSESSMENT[6].LEVEL = getRiskLevelByID(QuestData.PUBLICLY_LISTED_COUNTRY_ID_RISK_ID);
             
             CLIENT_RISK_ASSESSMENT[5].SCORE = getRiskScoreById(QuestData.COMP_PREV_NAMES_AD_INF_ID_RISK_ID);
             CLIENT_RISK_ASSESSMENT[5].LEVEL = getRiskLevelByID(QuestData.COMP_PREV_NAMES_AD_INF_ID_RISK_ID);
@@ -154,15 +158,16 @@ function recalc_risk_assessment(){
                     qForm.getEditor("RISK_SCORE_SHAREHOLDERS").option("value", ind);
 
 
-                    var COUNTRY_RISK  = CLIENT_RISK_ASSESSMENT[0].SCORE+CLIENT_RISK_ASSESSMENT[1].SCORE+CLIENT_RISK_ASSESSMENT[2].SCORE;
+                    //var COUNTRY_RISK  = CLIENT_RISK_ASSESSMENT[0].SCORE+CLIENT_RISK_ASSESSMENT[1].SCORE+CLIENT_RISK_ASSESSMENT[2].SCORE;
                     var CUSTOMER_RISK = CLIENT_RISK_ASSESSMENT[4].SCORE+CLIENT_RISK_ASSESSMENT[5].SCORE+CLIENT_RISK_ASSESSMENT[6].SCORE+CLIENT_RISK_ASSESSMENT[7].SCORE+CLIENT_RISK_ASSESSMENT[8].SCORE;
                     var IND_ACT_RISK  = CLIENT_RISK_ASSESSMENT[10].SCORE+CLIENT_RISK_ASSESSMENT[11].SCORE+CLIENT_RISK_ASSESSMENT[12].SCORE;
 
-                    CLIENT_RISK_ASSESSMENT[3].SCORE = COUNTRY_RISK;
+                    //CLIENT_RISK_ASSESSMENT[3].SCORE = COUNTRY_RISK;
                     CLIENT_RISK_ASSESSMENT[9].SCORE = CUSTOMER_RISK;
                     CLIENT_RISK_ASSESSMENT[13].SCORE = IND_ACT_RISK;
 
                     var COUNTRY_RISK_MAX =    Math.max(CLIENT_RISK_ASSESSMENT[0].SCORE,CLIENT_RISK_ASSESSMENT[1].SCORE,CLIENT_RISK_ASSESSMENT[2].SCORE);  
+                    CLIENT_RISK_ASSESSMENT[3].SCORE = COUNTRY_RISK_MAX;
                     if(COUNTRY_RISK_MAX == CLIENT_RISK_ASSESSMENT[0].SCORE){CLIENT_RISK_ASSESSMENT[3].LEVEL = CLIENT_RISK_ASSESSMENT[0].LEVEL.replace(/[0-9]{1,2}:/g,'');}    
                     if(COUNTRY_RISK_MAX == CLIENT_RISK_ASSESSMENT[1].SCORE){CLIENT_RISK_ASSESSMENT[3].LEVEL = CLIENT_RISK_ASSESSMENT[1].LEVEL.replace(/[0-9]{1,2}:/g,'');} 
                     if(COUNTRY_RISK_MAX == CLIENT_RISK_ASSESSMENT[2].SCORE){CLIENT_RISK_ASSESSMENT[3].LEVEL = CLIENT_RISK_ASSESSMENT[2].LEVEL.replace(/[0-9]{1,2}:/g,'');}  
@@ -193,6 +198,8 @@ function recalc_risk_assessment(){
                     CLIENT_RISK_ASSESSMENT[CLIENT_RISK_CATEGORIES.SUM_SENSITIVE_PRODUCT_SERVICE_RISK].LEVEL = getRiskLevelByID(QuestData.PRODUCT_AND_SERVICES_ID_RISK_ID);
 
                     CLIENT_RISK_ASSESSMENT[CLIENT_RISK_CATEGORIES.SUM_SENSITIVE_PRODUCT_SERVICE_RISK].LEVEL = CLIENT_RISK_ASSESSMENT[CLIENT_RISK_CATEGORIES.SUM_SENSITIVE_PRODUCT_SERVICE_RISK].LEVEL.replace(/[0-9]{1,2}:/g,'');
+
+
 
                     RA_TBL.dataSource = CLIENT_RISK_ASSESSMENT;
                     RA_TBL.refresh();

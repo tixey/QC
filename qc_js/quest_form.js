@@ -360,6 +360,22 @@ var ProClient  = new DevExpress.data.CustomStore({
 	}
 });
 
+var PubliclyListedCountries  = new DevExpress.data.CustomStore({
+	loadMode: "raw",
+	cacheRawData: true,
+	key: 'ID',
+	load: function(loadOptions) {
+			
+			var JSfile4Store =  'php/json_data.php?URL=quest_form.php&SP=037&PAR=0';
+			return $.getJSON(JSfile4Store);
+	},
+		byKey: function (key) {
+				
+    		var JSfile4Store =  'php/json_data.php?URL=quest_form.php&SP=037&PAR='+key;
+    		return $.getJSON(JSfile4Store);
+	}
+});
+
 var RiskLevelsDS = new DevExpress.data.DataSource({
     store: RiskLevels
 });
@@ -789,13 +805,13 @@ function QuestForm_001_load(){
 		                			colSpan: 2,
 		                			editorType: "dxSelectBox",
 				                    editorOptions: {
-				                        dataSource: CountriesAndRisks,
+				                        dataSource: PubliclyListedCountries,
 				                        displayExpr: "NAME",
 								        valueExpr: "ID",
 								        searchEnabled: true,
 								        value: QuestData.REGULATOR_COUNTRY_ID,
 								        onValueChanged: function(data) {
-						                    	CountriesAndRisks.byKey(data.value).done(
+											PubliclyListedCountries.byKey(data.value).done(
 						                    		function(dataItem){
 						                    			if(dataItem.length>0){
 						                    				qForm.getEditor("REGULATOR_COUNTRY_ID_RISK_ID").option("value",dataItem[0].RISK_ID);
@@ -850,13 +866,13 @@ function QuestForm_001_load(){
 		                			colSpan: 2,
 		                			editorType: "dxSelectBox",
 				                    editorOptions: {
-				                        dataSource: CountriesAndRisks,
+				                        dataSource: PubliclyListedCountries,
 				                        displayExpr: "NAME",
 								        valueExpr: "ID",
 								        searchEnabled: true,
 								        value: QuestData.PUBLICLY_LISTED_COUNTRY_ID,
 								        onValueChanged: function(data) {
-						                    	CountriesAndRisks.byKey(data.value).done(
+											PubliclyListedCountries.byKey(data.value).done(
 						                    		function(dataItem){
 						                    			if(dataItem.length>0){
 						                    				qForm.getEditor("PUBLICLY_LISTED_COUNTRY_ID_RISK_ID").option("value",dataItem[0].RISK_ID);
