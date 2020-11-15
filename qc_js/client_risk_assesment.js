@@ -109,9 +109,10 @@ function recalc_risk_assessment(){
             
             CLIENT_RISK_ASSESSMENT[5].SCORE = getRiskScoreById(QuestData.COMP_PREV_NAMES_AD_INF_ID_RISK_ID);
             CLIENT_RISK_ASSESSMENT[5].LEVEL = getRiskLevelByID(QuestData.COMP_PREV_NAMES_AD_INF_ID_RISK_ID);
-            if(CLIENT_RISK_ASSESSMENT[5].SCORE<getRiskScoreById(QuestData.COMP_REG_NAME_ADV_INF_RISK_ID)){
-                CLIENT_RISK_ASSESSMENT[5].SCORE = getRiskScoreById(QuestData.COMP_REG_NAME_ADV_INF_RISK_ID);
-                CLIENT_RISK_ASSESSMENT[5].LEVEL = getRiskLevelByID(QuestData.COMP_REG_NAME_ADV_INF_RISK_ID);
+
+            if(CLIENT_RISK_ASSESSMENT[5].SCORE<getRiskScoreById(QuestData.COMP_REG_NAME_ADV_INF_ID_RISK_ID)){
+                CLIENT_RISK_ASSESSMENT[5].SCORE = getRiskScoreById(QuestData.COMP_REG_NAME_ADV_INF_ID_RISK_ID);
+                CLIENT_RISK_ASSESSMENT[5].LEVEL = getRiskLevelByID(QuestData.COMP_REG_NAME_ADV_INF_ID_RISK_ID);
             }
 
 

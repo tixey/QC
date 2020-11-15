@@ -1098,7 +1098,7 @@ function QuestForm_001_load(){
 		    				},
 		    				{
 		                		dataField: "MAIN_CONTROLLER_RESIDENCY_COUNTRIES", 
-		                		label: {text: "Residency of the Main Controller"}, 
+		                		label: {text: "Residency of Controller(s) (10%+)"}, 
 		                		colSpan:5,
 		                		editorType:"dxDropDownBox",
 		                		editorOptions:{
@@ -1212,7 +1212,7 @@ function QuestForm_001_load(){
 		                ]
 		        	}, {
 		                itemType: "group",
-		                caption: "3. Know your Business",
+		                caption: "4. Know your Business",
 		    			colCount: 6,
 		                items: [
 		                	{
@@ -1401,7 +1401,7 @@ function QuestForm_001_load(){
 		                ]
 		        	}, {
 		                itemType: "group",
-		                caption: "4. Client Risk Assessment",
+		                caption: "5. Client Risk Assessment",
 		    			colCount: 6,
 		                items: [
 							{itemType: "empty", colSpan: 1},
